@@ -73,10 +73,34 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick, cartCount, onOpenCart, logo
           
           {/* Center Links - Desktop */}
           <div className={`hidden md:flex items-center gap-12 text-sm font-medium tracking-widest uppercase transition-colors duration-500 ${textColorClass}`}>
-            <a href="#about" onClick={(e) => handleLinkClick(e, 'about')} className="hover:opacity-60 transition-opacity">About Us</a>
-            <a href="#products" onClick={(e) => handleLinkClick(e, 'products')} className="hover:opacity-60 transition-opacity">Our IPs</a>
-            <a href="#journal" onClick={(e) => handleLinkClick(e, 'journal')} className="hover:opacity-60 transition-opacity">Insights</a>
-            <a href="#footer" onClick={(e) => handleLinkClick(e, 'footer')} className="hover:opacity-60 transition-opacity">Contact</a>
+            <a 
+                href="#about" 
+                onClick={(e) => handleLinkClick(e, 'about')} 
+                className="transition-all duration-300 hover:bg-gradient-to-r hover:from-[#A855F7] hover:to-[#F97316] hover:bg-clip-text hover:text-transparent"
+            >
+                Our Core
+            </a>
+            <a 
+                href="#products" 
+                onClick={(e) => handleLinkClick(e, 'products')} 
+                className="transition-all duration-300 hover:bg-gradient-to-r hover:from-[#A855F7] hover:to-[#F97316] hover:bg-clip-text hover:text-transparent"
+            >
+                Our IPs
+            </a>
+            <a 
+                href="#journal" 
+                onClick={(e) => handleLinkClick(e, 'journal')} 
+                className="transition-all duration-300 hover:bg-gradient-to-r hover:from-[#A855F7] hover:to-[#F97316] hover:bg-clip-text hover:text-transparent"
+            >
+                Insights
+            </a>
+            <a 
+                href="#footer" 
+                onClick={(e) => handleLinkClick(e, 'footer')} 
+                className="transition-all duration-300 hover:bg-gradient-to-r hover:from-[#A855F7] hover:to-[#F97316] hover:bg-clip-text hover:text-transparent"
+            >
+                Contact
+            </a>
           </div>
 
           {/* Right Actions */}
@@ -113,10 +137,10 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick, cartCount, onOpenCart, logo
           mobileMenuOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-10 pointer-events-none'
       }`}>
           <div className="flex flex-col items-center space-y-8 text-xl font-serif font-medium text-slate-900">
-            <a href="#about" onClick={(e) => handleLinkClick(e, 'about')} className="hover:opacity-60 transition-opacity">About Us</a>
-            <a href="#products" onClick={(e) => handleLinkClick(e, 'products')} className="hover:opacity-60 transition-opacity">Featured IPs</a>
-            <a href="#journal" onClick={(e) => handleLinkClick(e, 'journal')} className="hover:opacity-60 transition-opacity">Insights</a>
-            <a href="#footer" onClick={(e) => handleLinkClick(e, 'footer')} className="hover:opacity-60 transition-opacity">Contact</a>
+            <a href="#about" onClick={(e) => handleLinkClick(e, 'about')} className="hover:text-[#A855F7] transition-colors">Our Core</a>
+            <a href="#products" onClick={(e) => handleLinkClick(e, 'products')} className="hover:text-[#A855F7] transition-colors">Featured IPs</a>
+            <a href="#journal" onClick={(e) => handleLinkClick(e, 'journal')} className="hover:text-[#A855F7] transition-colors">Insights</a>
+            <a href="#footer" onClick={(e) => handleLinkClick(e, 'footer')} className="hover:text-[#A855F7] transition-colors">Contact</a>
           </div>
       </div>
     </>

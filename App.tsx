@@ -16,7 +16,7 @@ import ProductDetail from './components/ProductDetail';
 import JournalDetail from './components/JournalDetail';
 import CartDrawer from './components/CartDrawer';
 import Checkout from './components/Checkout';
-import { Product, ViewState, HeroData, AIKnowledgeItem, AboutData, JournalArticle } from './types';
+import { Product, ViewState, HeroData, AIKnowledgeItem, AboutData, JournalArticle, QAItem } from './types';
 import { PRODUCTS, BRAND_NAME } from './constants';
 import { fetchAppContent } from './services/dataLoader';
 
@@ -26,17 +26,21 @@ function App() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   
+  // Navigation State Persistence
+  const [lastCategory, setLastCategory] = useState<string | null>(null);
+
   // Data State
   const [products, setProducts] = useState<Product[]>([]);
   const [heroData, setHeroData] = useState<HeroData | null>(null);
   const [aboutData, setAboutData] = useState<AboutData | null>(null);
   const [journalArticles, setJournalArticles] = useState<JournalArticle[]>([]);
   const [aiKnowledge, setAiKnowledge] = useState<AIKnowledgeItem[]>([]);
+  const [qaItems, setQaItems] = useState<QAItem[]>([]);
 
   useEffect(() => {
     const loadData = async () => {
         try {
-            const { hero, products: fetchedProducts, knowledge, about, articles } = await fetchAppContent();
+            const { hero, products: fetchedProducts, knowledge, about, articles, qaItems: fetchedQaItems } = await fetchAppContent();
             
             if (fetchedProducts.length > 0) {
                 setProducts(fetchedProducts);
@@ -48,6 +52,7 @@ function App() {
             if (about) setAboutData(about);
             if (articles.length > 0) setJournalArticles(articles);
             if (knowledge.length > 0) setAiKnowledge(knowledge);
+            if (fetchedQaItems.length > 0) setQaItems(fetchedQaItems);
 
         } catch (error) {
             console.error("Initialization error:", error);
@@ -66,6 +71,9 @@ function App() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
     
+    // When navigating via main menu, reset category context
+    setLastCategory(null);
+
     // If we are not home, go home first
     if (view.type !== 'home') {
       setView({ type: 'home' });
@@ -145,7 +153,9 @@ function App() {
             <About data={aboutData} />
             <ProductGrid 
                 products={products}
+                initialCategory={lastCategory}
                 onProductClick={(p) => {
+                    setLastCategory(p.category); // Save context
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     setView({ type: 'product', product: p });
                 }} 
@@ -196,7 +206,7 @@ function App() {
 
       {view.type !== 'checkout' && <Footer onLinkClick={handleNavClick} />}
       
-      <Assistant products={products} knowledge={aiKnowledge} />
+      <Assistant products={products} knowledge={aiKnowledge} qaItems={qaItems} />
       
       <CartDrawer 
         isOpen={isCartOpen}

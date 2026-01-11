@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 
-import { Product, HeroData, AIKnowledgeItem, AboutData, JournalArticle } from '../types';
+import { Product, HeroData, AIKnowledgeItem, AboutData, JournalArticle, QAItem } from '../types';
+import { DEFAULT_QA_ITEMS } from '../constants';
 
 // Converted from pubhtml to pub?output=csv
 const HERO_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXddgRxLZ0LndykpC73ZyzqxsuKoj4mzyY2Jpe5dohuRbBuIiYXVt1jyFhYJAxluL2aDELOArfubtL/pub?gid=0&single=true&output=csv';
@@ -16,6 +17,9 @@ const ABOUT_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXddgR
 
 // Journal/Insights Sheet
 const JOURNAL_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXddgRxLZ0LndykpC73ZyzqxsuKoj4mzyY2Jpe5dohuRbBuIiYXVt1jyFhYJAxluL2aDELOArfubtL/pub?gid=519114801&single=true&output=csv';
+
+// QA Config Sheet - Updated GID as requested
+const QA_CONFIG_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXddgRxLZ0LndykpC73ZyzqxsuKoj4mzyY2Jpe5dohuRbBuIiYXVt1jyFhYJAxluL2aDELOArfubtL/pub?gid=1167661763&single=true&output=csv';
 
 
 const parseCSV = (text: string): Record<string, string>[] => {
@@ -89,10 +93,11 @@ export const fetchAppContent = async (): Promise<{
     products: Product[], 
     knowledge: AIKnowledgeItem[],
     about: AboutData | null,
-    articles: JournalArticle[]
+    articles: JournalArticle[],
+    qaItems: QAItem[]
 }> => {
   try {
-    const [heroResponse, productsResponse, contextResponse, aboutResponse, journalResponse] = await Promise.all([
+    const [heroResponse, productsResponse, contextResponse, aboutResponse, journalResponse, qaResponse] = await Promise.all([
       fetch(HERO_SHEET_URL),
       fetch(PRODUCTS_SHEET_URL),
       fetch(AI_CONTEXT_SHEET_URL).catch((err) => {
@@ -106,6 +111,10 @@ export const fetchAppContent = async (): Promise<{
       fetch(JOURNAL_SHEET_URL).catch((err) => {
           console.error("Error fetching Journal Config:", err);
           return null;
+      }),
+      fetch(QA_CONFIG_SHEET_URL).catch((err) => {
+          console.warn("QA Config Fetch failed, using default.");
+          return null;
       })
     ]);
 
@@ -114,12 +123,14 @@ export const fetchAppContent = async (): Promise<{
     const contextText = contextResponse ? await contextResponse.text() : '';
     const aboutText = aboutResponse ? await aboutResponse.text() : '';
     const journalText = journalResponse ? await journalResponse.text() : '';
+    const qaText = qaResponse ? await qaResponse.text() : '';
 
     const heroRows = parseCSV(heroText);
     const productRows = parseCSV(productsText);
     const contextRows = contextText ? parseCSV(contextText) : [];
     const aboutRows = aboutText ? parseCSV(aboutText) : [];
     const journalRows = journalText ? parseCSV(journalText) : [];
+    const qaRows = qaText ? parseCSV(qaText) : [];
 
     // Map Hero Data
     let hero: HeroData | null = null;
@@ -192,11 +203,12 @@ export const fetchAppContent = async (): Promise<{
     const products: Product[] = productRows.map((r, index) => ({
       id: r['id'] || `sheet-p-${index}`,
       name: r['name'] || 'Untitled',
-      tagline: r['tagline'] || '',
+      tagline: r['tagline'] || r['tagline / description'] || r['tagline/description'] || '', // Check all variants
       description: r['description'] || '',
       longDescription: r['longdescription'] || r['long description'] || r['description'],
       price: parseFloat(r['price']) || 0,
       category: r['category'] || 'All',
+      level: r['level'] || 'Item', // Map level column, default to Item
       imageUrl: r['imageurl'] || r['image'] || '',
       gallery: r['gallery'] ? r['gallery'].split('|').map(s => s.trim()) : [r['imageurl'] || ''],
       features: r['features'] ? r['features'].split(',').map(s => s.trim()) : []
@@ -217,11 +229,21 @@ export const fetchAppContent = async (): Promise<{
       category: r['category'] || 'General',
       information: r['information'] || r['info'] || r['content'] || ''
     })).filter(k => k.information !== '');
+
+    // Map QA Config Data
+    const qaItems: QAItem[] = qaRows.map((r, index) => ({
+        id: r['id'] || index + 1,
+        question: r['question'] || r['q'] || '',
+        answer: r['answer'] || r['a'] || ''
+    })).filter(q => q.question !== '' && q.answer !== '');
     
-    return { hero, products, knowledge, about, articles };
+    // Fallback to defaults if sheet is empty or failed
+    const finalQaItems = qaItems.length > 0 ? qaItems : DEFAULT_QA_ITEMS;
+
+    return { hero, products, knowledge, about, articles, qaItems: finalQaItems };
 
   } catch (error) {
     console.error("Failed to load Google Sheet data:", error);
-    return { hero: null, products: [], knowledge: [], about: null, articles: [] };
+    return { hero: null, products: [], knowledge: [], about: null, articles: [], qaItems: DEFAULT_QA_ITEMS };
   }
 };

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 
-import { Product, JournalArticle } from './types';
+import { Product, JournalArticle, QAItem } from './types';
 
 export const PRODUCTS: Product[] = [
   {
@@ -89,6 +89,34 @@ Through assets like Pumfys and platforms like KOI City, we provide the tools for
 **Create:** We focus on original IP development that spans games, characters, and immersive stories. **Commercialize:** We leverage licensing, brand collaborations, and digital asset monetization to bring these creations to the global market.
 
 [B] Original IP Development | Brand Collaborations | Digital Asset Monetization`
+    }
+];
+
+export const DEFAULT_QA_ITEMS: QAItem[] = [
+    {
+        id: 1,
+        question: "What is the core strategic mission of KOI Mobilize Holdings?",
+        answer: "Our mission is to bridge the physical and digital worlds by creating sustainable, interoperable IP ecosystems. We empower creators and brands to co-build value that lasts, moving beyond transient trends to establish long-term equity."
+    },
+    {
+        id: 2,
+        question: "How does MsKOI fit into the global IP strategy?",
+        answer: "MsKOI serves as our 'Digital Anchor.' Unlike human influencers, she is an always-on, scalable entity that can exist simultaneously in games, social media, and brand campaigns, providing a consistent and controllable interface for our ecosystem."
+    },
+    {
+        id: 3,
+        question: "What differentiates Pumfys from other digital collectibles?",
+        answer: "Pumfys are designed with 'Utility First' principles. They are not just static images; they are keys that unlock specific functionalities, gaming experiences, and community governance rights within KOI City and partner networks."
+    },
+    {
+        id: 4,
+        question: "Can you explain the 'Create and Commercialize' model?",
+        answer: "Certainly. 'Create' involves high-fidelity asset production and world-building. 'Commercialize' activates those assets through licensing, B2B partnerships, and direct-to-consumer digital sales, ensuring multiple revenue streams for every IP."
+    },
+    {
+        id: 5,
+        question: "What is the role of KOI City?",
+        answer: "KOI City is the infrastructure layer—a persistent immersive environment where all our IPs converge. It functions as a social commerce hub where users can trade, interact, and experience the narrative depth of our portfolio."
     }
 ];
 

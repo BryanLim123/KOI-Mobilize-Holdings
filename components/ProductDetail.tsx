@@ -21,12 +21,14 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack, onAddToC
         {/* Breadcrumb / Back */}
         <button 
           onClick={onBack}
-          className="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors mb-8 relative z-10"
+          className="group relative mb-8 z-10 flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-md
+                     bg-slate-900/80 backdrop-blur-md border border-[#A855F7]/30 text-white
+                     hover:scale-105 hover:bg-gradient-to-r hover:from-[#A855F7]/90 hover:to-[#F97316]/90 hover:border-transparent hover:shadow-[0_0_15px_rgba(168,85,247,0.4)]"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 group-hover:-translate-x-1 transition-transform">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 group-hover:-translate-x-1 transition-transform">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
           </svg>
-          Back to IPs
+          Back
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">

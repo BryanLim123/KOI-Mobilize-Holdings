@@ -12,31 +12,8 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ data }) => {
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    e.preventDefault();
-    const element = document.getElementById(targetId);
-    if (element) {
-      // Manual scroll calculation to account for fixed header
-      const headerOffset = 85;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-      
-      try {
-        window.history.pushState(null, '', `#${targetId}`);
-      } catch (err) {
-        // Ignore SecurityError
-      }
-    }
-  };
-
   // Defaults are essentially empty/placeholder to allow smooth fading in from the App loader
   const bgImage = data?.backgroundImage || "";
-  const title = data?.title || "A Global IP Platform";
   const subtitle = data?.subtitle || "Connecting Games, Media, and Digital Assets. \nCo-building sustainable, scalable ecosystems.";
   const companyLabel = data?.companyLabel || "KOI Mobilize Holdings";
 
@@ -70,20 +47,48 @@ const Hero: React.FC<HeroProps> = ({ data }) => {
           <span className="block text-xs md:text-sm font-medium uppercase tracking-[0.2em] text-blue-200 mb-6 backdrop-blur-sm bg-white/5 px-4 py-2 rounded-full mx-0 md:mx-auto w-fit border border-white/10">
             {companyLabel}
           </span>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white tracking-tight mb-8 drop-shadow-sm leading-tight text-shadow-md">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold tracking-tight mb-8 leading-tight bg-gradient-to-r from-[#A855F7] to-[#F97316] bg-clip-text text-transparent pb-2">
             {renderTitle()}
           </h1>
           <p className="max-w-2xl mx-0 md:mx-auto text-lg md:text-2xl text-slate-100 font-light leading-relaxed mb-12 text-shadow-sm whitespace-pre-line">
             {subtitle}
           </p>
           
-          <a 
-            href="#about" 
-            onClick={(e) => handleNavClick(e, 'about')}
-            className="group relative px-10 py-4 bg-white text-slate-900 rounded-none text-sm font-bold uppercase tracking-widest hover:bg-blue-50 transition-all duration-500 overflow-hidden shadow-lg hover:shadow-xl inline-block"
+          {/* MONOKOILY Button - Responsive Scaling Applied */}
+          <button 
+            type="button"
+            className="group relative inline-flex items-center justify-center px-6 py-3 md:px-12 md:py-5 overflow-hidden rounded-xl transition-all duration-300 ease-in-out hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] cursor-default"
           >
-            <span className="relative z-10 group-hover:text-blue-900">Our Vision</span>
-          </a>
+             {/* Default State Background & Border (Absolute) */}
+             <div 
+               className="absolute inset-0 transition-opacity duration-300 ease-in-out group-hover:opacity-0"
+               style={{
+                 background: "linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)) padding-box, linear-gradient(to right, #A855F7, #F97316) border-box",
+                 border: "1px solid transparent",
+                 backdropFilter: "blur(12px)",
+                 borderRadius: "0.75rem"
+               }}
+             />
+
+             {/* Hover State Background (Absolute) */}
+             <div 
+               className="absolute inset-0 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-90 bg-gradient-to-r from-[#A855F7] to-[#F97316]"
+               style={{ borderRadius: "0.75rem" }}
+             />
+
+             {/* Text Content - Responsive Size */}
+             <span className="relative z-10 text-white font-bold text-sm md:text-lg tracking-[0.15em] uppercase drop-shadow-md">
+                {/* Text Swap logic */}
+                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center transition-all duration-300 ease-in-out group-hover:opacity-0 group-hover:scale-95 group-hover:blur-sm">
+                   MONOKOILY
+                </span>
+                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center transition-all duration-300 ease-in-out opacity-0 scale-105 blur-sm group-hover:opacity-100 group-hover:scale-100 group-hover:blur-0 whitespace-nowrap">
+                   COMING REAL SOON
+                </span>
+                {/* Invisible Spacer to define button size based on longest text */}
+                <span className="opacity-0 pointer-events-none">COMING REAL SOON</span>
+             </span>
+          </button>
         </div>
       </div>
 

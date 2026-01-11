@@ -13,6 +13,7 @@ export interface Product {
   longDescription?: string;
   price: number;
   category: string;
+  level?: string; // New field for hierarchy logic (Cover vs Item)
   imageUrl: string;
   gallery?: string[];
   features: string[];
@@ -45,6 +46,12 @@ export interface AboutData {
 export interface AIKnowledgeItem {
   category: string;
   information: string;
+}
+
+export interface QAItem {
+    id: string | number;
+    question: string;
+    answer: string;
 }
 
 export interface JournalArticle {

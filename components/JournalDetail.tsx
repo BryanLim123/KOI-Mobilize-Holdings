@@ -90,9 +90,11 @@ const JournalDetail: React.FC<JournalDetailProps> = ({ article, allArticles, onB
                 <div className="flex items-center gap-6 md:gap-8">
                     <button 
                       onClick={onBack}
-                      className="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors"
+                      className="group flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-sm
+                                 bg-slate-900/90 backdrop-blur-md border border-[#A855F7]/30 text-white
+                                 hover:scale-105 hover:bg-gradient-to-r hover:from-[#A855F7]/90 hover:to-[#F97316]/90 hover:border-transparent hover:shadow-md"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 group-hover:-translate-x-1 transition-transform">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 group-hover:-translate-x-1 transition-transform">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                       </svg>
                       Back to Insights
@@ -101,10 +103,12 @@ const JournalDetail: React.FC<JournalDetailProps> = ({ article, allArticles, onB
                     {nextArticle && (
                         <button 
                           onClick={() => onNext(nextArticle)}
-                          className="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors"
+                          className="group flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-sm
+                                     bg-slate-900/90 backdrop-blur-md border border-[#A855F7]/30 text-white
+                                     hover:scale-105 hover:bg-gradient-to-r hover:from-[#A855F7]/90 hover:to-[#F97316]/90 hover:border-transparent hover:shadow-md"
                         >
                           Next Article
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 group-hover:translate-x-1 transition-transform">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 group-hover:translate-x-1 transition-transform">
                              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                           </svg>
                         </button>

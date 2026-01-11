@@ -4,144 +4,180 @@
 */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { ChatMessage, Product, AIKnowledgeItem } from '../types';
-import { sendMessageToGemini } from '../services/geminiService';
+import { ChatMessage, Product, AIKnowledgeItem, QAItem } from '../types';
 
 interface AssistantProps {
     products: Product[];
     knowledge: AIKnowledgeItem[];
+    qaItems?: QAItem[];
 }
 
-const Assistant: React.FC<AssistantProps> = ({ products, knowledge }) => {
+const Assistant: React.FC<AssistantProps> = ({ products, knowledge, qaItems = [] }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'model', text: 'Hello, I am the Chief Strategy Officer for KOI Mobilize. How can I assist you with our IP ecosystem today?', timestamp: Date.now() }
-  ]);
-  const [inputValue, setInputValue] = useState('');
-  const [isThinking, setIsThinking] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [currentQAIndex, setCurrentQAIndex] = useState(0);
+  // 'question': We are waiting for user to reveal answer.
+  // 'answer': Answer is revealed, waiting to move to next question.
+  const [flowState, setFlowState] = useState<'question' | 'answer'>('question');
+  
   const scrollRef = useRef<HTMLDivElement>(null);
+  const hasInitialized = useRef(false);
 
-  // Debug log to ensure data is reaching the component
+  // Initialize Chat with Static Intro and First Question
   useEffect(() => {
-    if (knowledge.length > 0) {
-        console.log("Assistant Component received Knowledge Base:", knowledge.length, "items.");
+    if (!hasInitialized.current && qaItems.length > 0) {
+       // Static Welcome Message
+       const introMsg: ChatMessage = { 
+           role: 'model', 
+           text: 'Welcome to our Strategic Q&A. Use the "Next" button to reveal answers and "Skip" to move to the next strategic topic.', 
+           timestamp: Date.now() 
+       };
+       
+       // Post First Question
+       const q1 = qaItems[0];
+       const qMsg: ChatMessage = {
+           role: 'model',
+           text: q1.question,
+           timestamp: Date.now() + 100
+       };
+       
+       setMessages([introMsg, qMsg]);
+       hasInitialized.current = true;
     }
-  }, [knowledge]);
+  }, [qaItems]);
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages, isOpen]);
+  }, [messages, isOpen, flowState]);
 
-  const handleSend = async () => {
-    if (!inputValue.trim()) return;
-
-    const userMsg: ChatMessage = { role: 'user', text: inputValue, timestamp: Date.now() };
-    setMessages(prev => [...prev, userMsg]);
-    setInputValue('');
-    setIsThinking(true);
-
-    try {
-      const history = messages.map(m => ({ role: m.role, text: m.text }));
+  const handleNext = () => {
+      // Logic:
+      // If flowState is 'question', "Next" reveals the Answer.
+      // If flowState is 'answer', "Next" moves to the Next Question.
       
-      // Passing knowledge explicitly to service
-      const responseText = await sendMessageToGemini(history, userMsg.text, products, knowledge);
-      
-      const aiMsg: ChatMessage = { role: 'model', text: responseText, timestamp: Date.now() };
-      setMessages(prev => [...prev, aiMsg]);
-    } catch (error) {
-        // Error handled in service
-    } finally {
-      setIsThinking(false);
-    }
+      if (flowState === 'question') {
+          const item = qaItems[currentQAIndex % qaItems.length];
+          const answerMsg: ChatMessage = {
+              role: 'model',
+              text: item.answer,
+              timestamp: Date.now()
+          };
+          setMessages(prev => [...prev, answerMsg]);
+          setFlowState('answer');
+      } else {
+          // Move to next question
+          const nextIndex = (currentQAIndex + 1) % qaItems.length;
+          setCurrentQAIndex(nextIndex);
+          const item = qaItems[nextIndex];
+          const qMsg: ChatMessage = {
+              role: 'model',
+              text: item.question,
+              timestamp: Date.now()
+          };
+          setMessages(prev => [...prev, qMsg]);
+          setFlowState('question');
+      }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
+  const handleSkip = () => {
+      // Logic: Move to next ID immediately, skipping answer if current.
+      const nextIndex = (currentQAIndex + 1) % qaItems.length;
+      setCurrentQAIndex(nextIndex);
+      const item = qaItems[nextIndex];
+      
+      const skipMsg: ChatMessage = { role: 'user', text: 'Skip ⏩', timestamp: Date.now() };
+      const qMsg: ChatMessage = {
+          role: 'model',
+          text: item.question,
+          timestamp: Date.now() + 50
+      };
+      
+      setMessages(prev => [...prev, skipMsg, qMsg]);
+      setFlowState('question');
   };
 
+  // Determine Button Labels
+  const nextButtonLabel = flowState === 'question' ? 'Next (Reveal)' : 'Next (Question)';
+  
   return (
-    <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end font-sans">
+    <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-50 flex flex-col items-end font-sans">
       {isOpen && (
-        <div className="bg-[#F5F2EB] rounded-none shadow-2xl shadow-[#2C2A26]/10 w-[90vw] sm:w-[380px] h-[550px] mb-6 flex flex-col overflow-hidden border border-[#D6D1C7] animate-slide-up-fade">
+        <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-2xl w-[90vw] sm:w-[400px] h-[500px] md:h-[600px] mb-4 md:mb-6 flex flex-col overflow-hidden border border-white/20 animate-slide-up-fade transition-all duration-300 ease-out">
           {/* Header */}
-          <div className="bg-[#EBE7DE] p-5 border-b border-[#D6D1C7] flex justify-between items-center">
-            <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-[#2C2A26] rounded-full animate-pulse"></div>
-                <span className="font-serif italic text-[#2C2A26] text-lg">Chief Strategy Officer</span>
+          <div className="bg-gradient-to-r from-[#A855F7] to-[#F97316] p-4 md:p-5 border-b border-white/10 flex justify-between items-center relative z-10">
+            <div className="flex items-center gap-2 md:gap-3">
+                <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.8)]"></div>
+                <span className="font-serif italic text-white text-base md:text-lg tracking-wide drop-shadow-md">Strategic Q&A</span>
             </div>
-            <button onClick={() => setIsOpen(false)} className="text-[#A8A29E] hover:text-[#2C2A26] transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6">
+            <button 
+                onClick={() => setIsOpen(false)} 
+                className="text-white/70 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-1"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
 
           {/* Chat Area */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-8 bg-[#F5F2EB]" ref={scrollRef}>
+          <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 md:space-y-8 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent" ref={scrollRef}>
             {messages.map((msg, idx) => (
-              <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}>
                 <div 
-                  className={`max-w-[85%] p-5 text-sm leading-relaxed ${
+                  className={`max-w-[90%] md:max-w-[85%] p-3 md:p-5 text-xs md:text-sm leading-relaxed whitespace-pre-line rounded-xl backdrop-blur-md border ${
                     msg.role === 'user' 
-                      ? 'bg-[#2C2A26] text-[#F5F2EB]' 
-                      : 'bg-white border border-[#EBE7DE] text-[#5D5A53] shadow-sm'
+                      ? 'bg-white/10 border-white/5 text-white/80 rounded-tr-none' 
+                      : 'bg-white/5 border-white/10 text-white rounded-tl-none shadow-[0_0_15px_rgba(0,0,0,0.2)]'
                   }`}
                 >
-                  {msg.text}
+                  {/* Add a subtle glow to model text for high contrast readability */}
+                  <span className={msg.role === 'model' ? 'drop-shadow-[0_0_1px_rgba(255,255,255,0.4)]' : ''}>
+                    {msg.text}
+                  </span>
                 </div>
               </div>
             ))}
-            {isThinking && (
-               <div className="flex justify-start">
-                 <div className="bg-white border border-[#EBE7DE] p-5 flex gap-1 items-center shadow-sm">
-                   <div className="w-1.5 h-1.5 bg-[#A8A29E] rounded-full animate-bounce"></div>
-                   <div className="w-1.5 h-1.5 bg-[#A8A29E] rounded-full animate-bounce delay-75"></div>
-                   <div className="w-1.5 h-1.5 bg-[#A8A29E] rounded-full animate-bounce delay-150"></div>
-                 </div>
-               </div>
+            {qaItems.length === 0 && (
+                <div className="text-center text-white/50 text-xs mt-10 animate-pulse">
+                    Loading Strategy Configuration...
+                </div>
             )}
           </div>
 
-          {/* Input Area */}
-          <div className="p-5 bg-[#F5F2EB] border-t border-[#D6D1C7]">
-            <div className="flex gap-2 relative">
-              <input 
-                type="text" 
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyPress}
-                placeholder="Ask about our IP strategy..." 
-                className="flex-1 bg-white border border-[#D6D1C7] focus:border-[#2C2A26] px-4 py-3 text-sm outline-none transition-colors placeholder-[#A8A29E] text-[#2C2A26]"
-              />
-              <button 
-                onClick={handleSend}
-                disabled={!inputValue.trim() || isThinking}
-                className="bg-[#2C2A26] text-[#F5F2EB] px-4 hover:bg-[#444] transition-colors disabled:opacity-50"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
-              </button>
-            </div>
+          {/* Guided Interactions */}
+          <div className="p-3 md:p-5 bg-white/5 backdrop-blur-md border-t border-white/10">
+             <div className="flex gap-2 md:gap-4">
+                 <button 
+                    onClick={handleNext}
+                    disabled={qaItems.length === 0}
+                    className="flex-1 py-3 md:py-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-white text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:shadow-none disabled:hover:translate-y-0"
+                 >
+                    {nextButtonLabel}
+                 </button>
+                 <button 
+                    onClick={handleSkip}
+                    disabled={qaItems.length === 0}
+                    className="px-4 md:px-6 py-3 md:py-4 bg-transparent hover:bg-white/10 border border-white/20 rounded-lg text-white/80 hover:text-white text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] disabled:opacity-50"
+                 >
+                    Skip
+                 </button>
+             </div>
           </div>
         </div>
       )}
 
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-[#2C2A26] text-[#F5F2EB] w-14 h-14 flex items-center justify-center rounded-full shadow-xl hover:scale-105 transition-all duration-500 z-50"
+        className="bg-gradient-to-r from-[#A855F7] to-[#F97316] text-white w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full shadow-lg hover:shadow-purple-500/50 hover:scale-110 transition-all duration-300 z-50 border border-white/20"
       >
         {isOpen ? (
-             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6">
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 md:w-6 md:h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
              </svg>
         ) : (
-            <span className="font-serif italic text-lg">Ai</span>
+            <span className="font-serif italic text-base md:text-lg px-2 drop-shadow-md">Q&A</span>
         )}
       </button>
     </div>

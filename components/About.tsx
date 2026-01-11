@@ -62,22 +62,22 @@ const About: React.FC<AboutProps> = ({ data }) => {
     <section id="about" className="bg-slate-50">
       
       {/* Introduction / Purpose */}
-      <div className="py-24 px-6 md:px-12 max-w-[1800px] mx-auto flex flex-col md:flex-row items-start gap-16 md:gap-32">
+      <div className="py-16 md:py-24 px-6 md:px-12 max-w-[1800px] mx-auto flex flex-col md:flex-row items-start gap-8 md:gap-32">
         <div className="md:w-1/3">
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-blue-600 mb-6 block">Our Purpose</span>
+          <span className="text-xs font-bold uppercase tracking-[0.2em] mb-4 md:mb-6 block bg-gradient-to-r from-[#A855F7] to-[#F97316] bg-clip-text text-transparent">Our Purpose</span>
           <h2 className="text-4xl md:text-6xl font-serif text-slate-900 leading-tight whitespace-pre-line">
             {purpose}
           </h2>
         </div>
         <div className="md:w-2/3 max-w-2xl">
-          <div className="mb-12">
-            <h3 className="text-xl font-medium text-slate-900 mb-4">Our Vision</h3>
+          <div className="mb-6 md:mb-12">
+            <h3 className="text-xl font-medium mb-2 md:mb-4 bg-gradient-to-r from-[#A855F7] to-[#F97316] bg-clip-text text-transparent inline-block">Our Vision</h3>
             <p className="text-lg text-slate-600 font-light leading-relaxed whitespace-pre-line">
                 {vision}
             </p>
           </div>
-          <div className="mb-12">
-            <h3 className="text-xl font-medium text-slate-900 mb-4">Our Mission</h3>
+          <div className="mb-6 md:mb-12">
+            <h3 className="text-xl font-medium mb-2 md:mb-4 bg-gradient-to-r from-[#A855F7] to-[#F97316] bg-clip-text text-transparent inline-block">Our Mission</h3>
             <p className="text-lg text-slate-600 font-light leading-relaxed whitespace-pre-line">
                 {mission}
             </p>
@@ -98,9 +98,9 @@ const About: React.FC<AboutProps> = ({ data }) => {
              {renderMedia(pillar1Media, pillar1Title, "w-full h-full object-cover")}
            </div>
            {/* Replaced bg-slate-900/60 with bg-black/20 and added text shadows */}
-           <div className="absolute inset-0 bg-black/20 flex flex-col justify-center p-12 lg:p-24 transition-colors group-hover:bg-black/30">
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-white mb-6 drop-shadow-md">Pillar 01</span>
-                <h3 className="text-4xl md:text-5xl font-serif mb-6 text-white leading-tight drop-shadow-lg">
+           <div className="absolute inset-0 bg-black/20 flex flex-col justify-center p-8 md:p-12 lg:p-24 transition-colors group-hover:bg-black/30">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] mb-4 md:mb-6 drop-shadow-md bg-gradient-to-r from-[#A855F7] to-[#F97316] bg-clip-text text-transparent">Pillar 01</span>
+                <h3 className="text-4xl md:text-5xl font-serif mb-4 md:mb-6 text-white leading-tight drop-shadow-lg">
                     {pillar1Title}
                 </h3>
                 <p className="text-lg text-white font-light leading-relaxed max-w-md whitespace-pre-line drop-shadow-md">
@@ -115,9 +115,9 @@ const About: React.FC<AboutProps> = ({ data }) => {
                 {renderMedia(pillar2Media, pillar2Title, "w-full h-full object-cover")}
             </div>
            {/* Replaced bg-blue-900/70 with bg-black/20 and added text shadows */}
-           <div className="absolute inset-0 bg-black/20 flex flex-col justify-center p-12 lg:p-24 transition-colors group-hover:bg-black/30">
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-white mb-6 drop-shadow-md">Pillar 02</span>
-                <h3 className="text-4xl md:text-5xl font-serif mb-6 text-white leading-tight drop-shadow-lg">
+           <div className="absolute inset-0 bg-black/20 flex flex-col justify-center p-8 md:p-12 lg:p-24 transition-colors group-hover:bg-black/30">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] mb-4 md:mb-6 drop-shadow-md bg-gradient-to-r from-[#A855F7] to-[#F97316] bg-clip-text text-transparent">Pillar 02</span>
+                <h3 className="text-4xl md:text-5xl font-serif mb-4 md:mb-6 text-white leading-tight drop-shadow-lg">
                     {pillar2Title}
                 </h3>
                 <p className="text-lg text-white font-light leading-relaxed max-w-md whitespace-pre-line drop-shadow-md">
