@@ -54,6 +54,27 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack, onAddToC
                {product.longDescription || product.description}
              </p>
 
+             {/* External Action Link */}
+             {product.actionLink && (
+                 <a
+                   href={product.actionLink}
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className="inline-flex items-center justify-center mb-8 px-8 py-4 text-xs font-bold uppercase tracking-widest text-slate-900 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] w-full md:w-fit"
+                   style={{
+                       background: "linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)) padding-box, linear-gradient(to right, #A855F7, #F97316) border-box",
+                       border: "1px solid transparent",
+                       borderRadius: "0.75rem",
+                       backdropFilter: "blur(12px)"
+                   }}
+                 >
+                   View Case Study
+                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 ml-2">
+                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                   </svg>
+                 </a>
+             )}
+
              <div className="flex flex-col gap-4">
                {/* Licensing Button - Disabled */}
                <button 

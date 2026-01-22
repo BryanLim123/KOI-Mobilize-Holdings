@@ -211,7 +211,8 @@ export const fetchAppContent = async (): Promise<{
       level: r['level'] || 'Item', // Map level column, default to Item
       imageUrl: r['imageurl'] || r['image'] || '',
       gallery: r['gallery'] ? r['gallery'].split('|').map(s => s.trim()) : [r['imageurl'] || ''],
-      features: r['features'] ? r['features'].split(',').map(s => s.trim()) : []
+      features: r['features'] ? r['features'].split(',').map(s => s.trim()) : [],
+      actionLink: r['actionlink'] || r['action_link'] || r['link'] || ''
     }));
 
     // Map Journal Data
@@ -221,7 +222,8 @@ export const fetchAppContent = async (): Promise<{
         date: r['date'] || '',
         excerpt: r['excerpt'] || '',
         image: r['image'] || r['imageurl'] || '',
-        content: r['content'] || '' // Store raw content with tags
+        content: r['content'] || '', // Store raw content with tags
+        sourceLink: r['sourcelink'] || r['source_link'] || r['link'] || ''
     }));
 
     // Map AI Knowledge Data

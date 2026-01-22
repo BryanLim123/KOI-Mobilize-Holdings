@@ -17,6 +17,7 @@ export interface Product {
   imageUrl: string;
   gallery?: string[];
   features: string[];
+  actionLink?: string;
 }
 
 export interface HeroData {
@@ -61,6 +62,7 @@ export interface JournalArticle {
   excerpt: string;
   image: string;
   content: string; // Changed from React.ReactNode to string for CSV parsing
+  sourceLink?: string;
 }
 
 export interface ChatMessage {

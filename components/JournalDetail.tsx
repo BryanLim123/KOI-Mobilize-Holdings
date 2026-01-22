@@ -124,6 +124,28 @@ const JournalDetail: React.FC<JournalDetailProps> = ({ article, allArticles, onB
              <div className="prose prose-slate prose-lg mx-auto font-light leading-loose text-slate-600">
                {parseContent(article.content)}
              </div>
+
+             {/* External Source Link */}
+             {article.sourceLink && (
+               <div className="mt-12 text-center">
+                 <a
+                   href={article.sourceLink}
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className="inline-flex items-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-widest text-slate-900 transition-all duration-300 hover:scale-105 hover:text-[#A855F7]"
+                   style={{
+                       background: "linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)) padding-box, linear-gradient(to right, #A855F7, #F97316) border-box",
+                       border: "1px solid transparent",
+                       borderRadius: "0.75rem"
+                   }}
+                 >
+                   External Source
+                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                   </svg>
+                 </a>
+               </div>
+             )}
              
              <div className="mt-16 pt-12 border-t border-slate-100 flex justify-center">
                  <span className="text-xl font-serif italic text-slate-900">KOI Mobilize Holdings</span>
