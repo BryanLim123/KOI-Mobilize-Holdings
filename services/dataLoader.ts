@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 
-import { Product, HeroData, AIKnowledgeItem, AboutData, JournalArticle, QAItem } from '../types';
+import { Product, HeroData, AIKnowledgeItem, AboutData, JournalArticle, QAItem, Pillar } from '../types';
 import { DEFAULT_QA_ITEMS } from '../constants';
 
 // Converted from pubhtml to pub?output=csv
@@ -12,13 +12,16 @@ const PRODUCTS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXd
 
 const AI_CONTEXT_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXddgRxLZ0LndykpC73ZyzqxsuKoj4mzyY2Jpe5dohuRbBuIiYXVt1jyFhYJAxluL2aDELOArfubtL/pub?gid=1529591673&single=true&output=csv'; 
 
-// About Config Sheet
+// About Config Sheet (Main Info)
 const ABOUT_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXddgRxLZ0LndykpC73ZyzqxsuKoj4mzyY2Jpe5dohuRbBuIiYXVt1jyFhYJAxluL2aDELOArfubtL/pub?gid=350955839&single=true&output=csv';
+
+// Pillar Details Sheet (Details Content) - Updated GID
+const PILLAR_DETAILS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXddgRxLZ0LndykpC73ZyzqxsuKoj4mzyY2Jpe5dohuRbBuIiYXVt1jyFhYJAxluL2aDELOArfubtL/pub?gid=1422155392&single=true&output=csv';
 
 // Journal/Insights Sheet
 const JOURNAL_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXddgRxLZ0LndykpC73ZyzqxsuKoj4mzyY2Jpe5dohuRbBuIiYXVt1jyFhYJAxluL2aDELOArfubtL/pub?gid=519114801&single=true&output=csv';
 
-// QA Config Sheet - Updated GID as requested
+// QA Config Sheet
 const QA_CONFIG_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXddgRxLZ0LndykpC73ZyzqxsuKoj4mzyY2Jpe5dohuRbBuIiYXVt1jyFhYJAxluL2aDELOArfubtL/pub?gid=1167661763&single=true&output=csv';
 
 
@@ -97,38 +100,34 @@ export const fetchAppContent = async (): Promise<{
     qaItems: QAItem[]
 }> => {
   try {
-    const [heroResponse, productsResponse, contextResponse, aboutResponse, journalResponse, qaResponse] = await Promise.all([
-      fetch(HERO_SHEET_URL),
-      fetch(PRODUCTS_SHEET_URL),
-      fetch(AI_CONTEXT_SHEET_URL).catch((err) => {
-          console.error("Error fetching AI Context:", err);
-          return null;
-      }),
-      fetch(ABOUT_SHEET_URL).catch((err) => {
-          console.error("Error fetching About Config:", err);
-          return null;
-      }),
-      fetch(JOURNAL_SHEET_URL).catch((err) => {
-          console.error("Error fetching Journal Config:", err);
-          return null;
-      }),
-      fetch(QA_CONFIG_SHEET_URL).catch((err) => {
-          console.warn("QA Config Fetch failed, using default.");
-          return null;
-      })
+    // Helper to safely fetch text content, returning empty string on failure
+    const fetchTextSafe = async (url: string) => {
+        try {
+            const res = await fetch(url);
+            if (!res.ok) return '';
+            return await res.text();
+        } catch (e) {
+            // Silently fail for optional sheets to avoid console spam/errors
+            return '';
+        }
+    };
+
+    // Use Promise.all to fetch both sources concurrently
+    const [heroText, productsText, contextText, aboutText, pillarDetailText, journalText, qaText] = await Promise.all([
+      fetchTextSafe(HERO_SHEET_URL),
+      fetchTextSafe(PRODUCTS_SHEET_URL),
+      fetchTextSafe(AI_CONTEXT_SHEET_URL),
+      fetchTextSafe(ABOUT_SHEET_URL),
+      fetchTextSafe(PILLAR_DETAILS_SHEET_URL),
+      fetchTextSafe(JOURNAL_SHEET_URL),
+      fetchTextSafe(QA_CONFIG_SHEET_URL)
     ]);
 
-    const heroText = await heroResponse.text();
-    const productsText = await productsResponse.text();
-    const contextText = contextResponse ? await contextResponse.text() : '';
-    const aboutText = aboutResponse ? await aboutResponse.text() : '';
-    const journalText = journalResponse ? await journalResponse.text() : '';
-    const qaText = qaResponse ? await qaResponse.text() : '';
-
-    const heroRows = parseCSV(heroText);
-    const productRows = parseCSV(productsText);
+    const heroRows = heroText ? parseCSV(heroText) : [];
+    const productRows = productsText ? parseCSV(productsText) : [];
     const contextRows = contextText ? parseCSV(contextText) : [];
     const aboutRows = aboutText ? parseCSV(aboutText) : [];
+    const pillarDetailRows = pillarDetailText ? parseCSV(pillarDetailText) : [];
     const journalRows = journalText ? parseCSV(journalText) : [];
     const qaRows = qaText ? parseCSV(qaText) : [];
 
@@ -184,18 +183,70 @@ export const fetchAppContent = async (): Promise<{
         return undefined;
     };
 
+    // Helper for Pillar Details - ROBUST MATCHING FIX
+    const getPillarDetail = (rows: Record<string, string>[], id: string) => {
+        // CRITICAL: Trim and normalize ID for reliable matching
+        const targetId = id.trim().toLowerCase();
+        
+        const row = rows.find(r => {
+            // Check 'pillarid' as requested, keeping 'id' as fallback
+            const sheetId = (r['pillarid'] || r['id'] || '').trim().toLowerCase(); 
+            return sheetId === targetId;
+        });
+        
+        return row ? (row['content'] || row['detailcontent'] || row['details'] || row['detail_content']) : undefined;
+    };
+
     if (aboutRows.length > 0) {
+        // Dynamic Pillar Extraction
+        const pillars: Pillar[] = [];
+        const pillarIds = new Set<string>();
+
+        // Identify all sections starting with 'Pillar' in AboutConfig
+        aboutRows.forEach(r => {
+            const section = r['section']?.trim();
+            if (section && section.toLowerCase().startsWith('pillar')) {
+                pillarIds.add(section);
+            }
+            // Also check for flat keys like 'Pillar01Title' as backup
+            const keyMatch = r['key']?.match(/^(Pillar\d+)/i);
+            if (keyMatch) {
+                pillarIds.add(keyMatch[1]);
+            }
+        });
+
+        // Convert to sorted array to ensure order (Pillar01, Pillar02, Pillar03...)
+        const sortedPillarIds = Array.from(pillarIds).sort();
+
+        sortedPillarIds.forEach(id => {
+            const lookupId = id.trim(); // Ensure clean ID from AboutConfig
+            
+            const title = getAboutValue(aboutRows, lookupId, 'Title') || findContent(aboutRows, `${lookupId}Title`);
+            
+            // Only add if title exists (valid pillar)
+            if (title) {
+                const description = getAboutValue(aboutRows, lookupId, 'Desc') || findContent(aboutRows, `${lookupId}Desc`) || '';
+                const media = getAboutValue(aboutRows, lookupId, 'Media') || findContent(aboutRows, `${lookupId}Media`) || '';
+                
+                // Merge Logic: Match AboutConfig.Section (lookupId) with PillarDetails.PillarID
+                const detailContent = getPillarDetail(pillarDetailRows, lookupId) || '';
+
+                pillars.push({
+                    id: lookupId,
+                    title,
+                    description,
+                    media,
+                    detailContent
+                });
+            }
+        });
+
         about = {
             purpose: getAboutValue(aboutRows, 'Intro', 'Purpose') || findContent(aboutRows, 'Purpose') || findContent(aboutRows, 'PurposeText'),
             vision: getAboutValue(aboutRows, 'Intro', 'Vision') || findContent(aboutRows, 'Vision') || findContent(aboutRows, 'VisionText'),
             mission: getAboutValue(aboutRows, 'Intro', 'Mission') || findContent(aboutRows, 'Mission') || findContent(aboutRows, 'MissionText'),
             mainImage: getAboutValue(aboutRows, 'Intro', 'MainImage') || getAboutValue(aboutRows, 'Intro', 'OfficeImage') || findContent(aboutRows, 'AboutImage'),
-            pillar1Title: getAboutValue(aboutRows, 'Pillar01', 'Title') || findContent(aboutRows, 'Pillar1Title'),
-            pillar1Desc: getAboutValue(aboutRows, 'Pillar01', 'Desc') || findContent(aboutRows, 'Pillar1Desc'),
-            pillar1Media: getAboutValue(aboutRows, 'Pillar01', 'Media') || findContent(aboutRows, 'Pillar1Media'),
-            pillar2Title: getAboutValue(aboutRows, 'Pillar02', 'Title') || findContent(aboutRows, 'Pillar2Title'),
-            pillar2Desc: getAboutValue(aboutRows, 'Pillar02', 'Desc') || findContent(aboutRows, 'Pillar2Desc'),
-            pillar2Media: getAboutValue(aboutRows, 'Pillar02', 'Media') || findContent(aboutRows, 'Pillar2Media'),
+            pillars: pillars
         };
     }
 

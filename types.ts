@@ -31,17 +31,20 @@ export interface HeroData {
   companyLabel?: string;
 }
 
+export interface Pillar {
+  id: string;
+  title: string;
+  description: string;
+  media: string;
+  detailContent: string;
+}
+
 export interface AboutData {
   purpose?: string;
   vision?: string;
   mission?: string;
   mainImage?: string; // Mapped from Intro > MainImage
-  pillar1Title?: string;
-  pillar1Desc?: string;
-  pillar1Media?: string;
-  pillar2Title?: string;
-  pillar2Desc?: string;
-  pillar2Media?: string;
+  pillars: Pillar[];
 }
 
 export interface AIKnowledgeItem {
