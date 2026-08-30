@@ -1,224 +1,176 @@
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
-*/
+ */
 
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import ProductGrid from './components/ProductGrid';
 import About from './components/About';
+import Portfolio from './components/Portfolio';
 import Journal from './components/Journal';
 import Assistant from './components/Assistant';
 import Footer from './components/Footer';
-import ProductDetail from './components/ProductDetail';
+import IPDetail from './components/IPDetail';
 import JournalDetail from './components/JournalDetail';
-import CartDrawer from './components/CartDrawer';
-import Checkout from './components/Checkout';
-import { Product, ViewState, HeroData, AIKnowledgeItem, AboutData, JournalArticle, QAItem } from './types';
-import { PRODUCTS, BRAND_NAME } from './constants';
-import { fetchAppContent } from './services/dataLoader';
+import AdminApp from './admin/AdminApp';
+import { loadContent, type ContentSource } from './services/contentService';
+import type { SiteDocument, ViewState } from './types';
+
+/** #/admin (and anything under it) renders the CMS instead of the site. */
+function useIsAdminRoute() {
+  const read = () => window.location.hash.replace(/^#/, '').startsWith('/admin');
+  const [isAdmin, setIsAdmin] = useState(read);
+  useEffect(() => {
+    const onHash = () => setIsAdmin(read());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+  return isAdmin;
+}
 
 function App() {
+  const isAdmin = useIsAdminRoute();
+  if (isAdmin) return <AdminApp />;
+  return <PublicSite />;
+}
+
+function PublicSite() {
+  const [content, setContent] = useState<SiteDocument | null>(null);
+  const [source, setSource] = useState<ContentSource>('bundled');
   const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState<ViewState>({ type: 'home' });
-  const [cartItems, setCartItems] = useState<Product[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  
-  // Navigation State Persistence
-  const [lastCategory, setLastCategory] = useState<string | null>(null);
-
-  // Data State
-  const [products, setProducts] = useState<Product[]>([]);
-  const [heroData, setHeroData] = useState<HeroData | null>(null);
-  const [aboutData, setAboutData] = useState<AboutData | null>(null);
-  const [journalArticles, setJournalArticles] = useState<JournalArticle[]>([]);
-  const [aiKnowledge, setAiKnowledge] = useState<AIKnowledgeItem[]>([]);
-  const [qaItems, setQaItems] = useState<QAItem[]>([]);
+  const [lastCategoryId, setLastCategoryId] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadData = async () => {
-        try {
-            const { hero, products: fetchedProducts, knowledge, about, articles, qaItems: fetchedQaItems } = await fetchAppContent();
-            
-            if (fetchedProducts.length > 0) {
-                setProducts(fetchedProducts);
-            } else {
-                setProducts(PRODUCTS); // Fallback only if fetch completely fails/empty
-            }
-            
-            if (hero) setHeroData(hero);
-            if (about) setAboutData(about);
-            if (articles.length > 0) setJournalArticles(articles);
-            if (knowledge.length > 0) setAiKnowledge(knowledge);
-            if (fetchedQaItems.length > 0) setQaItems(fetchedQaItems);
-
-        } catch (error) {
-            console.error("Initialization error:", error);
-        } finally {
-            // Ensure visual loading persists for at least 800ms to prevent flickering on fast connections
-            setTimeout(() => {
-                setIsLoading(false);
-            }, 800);
-        }
+    let cancelled = false;
+    (async () => {
+      const { doc, source: src } = await loadContent();
+      if (cancelled) return;
+      setContent(doc);
+      setSource(src);
+      // Hold the loader briefly so the fade-in never flickers on fast connections
+      setTimeout(() => setIsLoading(false), 600);
+    })();
+    return () => {
+      cancelled = true;
     };
-    
-    loadData();
   }, []);
 
-  // Handle navigation (clicks on Navbar or Footer links)
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    e.preventDefault();
-    
-    // When navigating via main menu, reset category context
-    setLastCategory(null);
-
-    // If we are not home, go home first
-    if (view.type !== 'home') {
-      setView({ type: 'home' });
-      // Allow state update to render Home before scrolling
-      setTimeout(() => scrollToSection(targetId), 0);
-    } else {
-      scrollToSection(targetId);
-    }
-  };
-
-  const scrollToSection = (targetId: string) => {
+  const scrollToSection = useCallback((targetId: string) => {
     if (!targetId) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
     }
-    
-    const element = document.getElementById(targetId);
-    if (element) {
-      // Manual scroll calculation to account for fixed header
-      const headerOffset = 85;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    const offset = el.getBoundingClientRect().top + window.scrollY - 85;
+    window.scrollTo({ top: offset, behavior: 'smooth' });
+    try {
+      window.history.pushState(null, '', `#${targetId}`);
+    } catch {
+      /* restricted embed contexts */
+    }
+  }, []);
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-
-      try {
-        window.history.pushState(null, '', `#${targetId}`);
-      } catch (err) {
-        // Ignore SecurityError in restricted environments
+  const handleNavClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+      e.preventDefault();
+      setLastCategoryId(null);
+      if (view.type !== 'home') {
+        setView({ type: 'home' });
+        setTimeout(() => scrollToSection(targetId), 0);
+      } else {
+        scrollToSection(targetId);
       }
-    }
-  };
+    },
+    [view.type, scrollToSection],
+  );
 
-  const addToCart = (product: Product) => {
-    setCartItems([...cartItems, product]);
-    setIsCartOpen(true);
-  };
-
-  const removeFromCart = (index: number) => {
-    const newItems = [...cartItems];
-    newItems.splice(index, 1);
-    setCartItems(newItems);
-  };
-
-  if (isLoading) {
-      return (
-          <div className="fixed inset-0 bg-[#0f172a] z-[100] flex items-center justify-center">
-              <div className="flex flex-col items-center">
-                  <img 
-                      src="https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/logo_low_res.png" 
-                      alt={BRAND_NAME}
-                      className="h-32 w-auto max-w-[250px] object-contain animate-pulse"
-                  />
-              </div>
-          </div>
-      );
+  if (isLoading || !content) {
+    const logo = content?.site.loaderLogoUrl || content?.site.logoUrl;
+    return (
+      <div className="fixed inset-0 bg-[#0f172a] z-[100] flex items-center justify-center">
+        {logo ? (
+          <img
+            src={logo}
+            alt={content?.site.brandName || 'Loading'}
+            className="h-32 w-auto max-w-[250px] object-contain animate-pulse"
+          />
+        ) : (
+          <div className="h-3 w-3 rounded-full bg-white/60 animate-pulse" />
+        )}
+      </div>
+    );
   }
+
+  const { site, hero, about, portfolio, journal, assistant } = content;
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-slate-200 selection:text-slate-900 animate-fade-in">
-      {view.type !== 'checkout' && (
-        <Navbar 
-            onNavClick={handleNavClick} 
-            cartCount={cartItems.length}
-            onOpenCart={() => setIsCartOpen(true)}
-            logoUrl={heroData?.logoUrl}
-        />
-      )}
-      
+      <Navbar site={site} onNavClick={handleNavClick} />
+
       <main>
         {view.type === 'home' && (
           <>
-            <Hero data={heroData} />
-            <About data={aboutData} />
-            <ProductGrid 
-                products={products}
-                initialCategory={lastCategory}
-                onProductClick={(p) => {
-                    setLastCategory(p.category); // Save context
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    setView({ type: 'product', product: p });
-                }} 
+            <Hero data={hero} />
+            <About data={about} />
+            <Portfolio
+              data={portfolio}
+              initialCategoryId={lastCategoryId}
+              onItemClick={(item, category) => {
+                setLastCategoryId(category.id);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setView({ type: 'ip', item, category });
+              }}
             />
-            <Journal 
-                articles={journalArticles}
-                onArticleClick={(a) => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    setView({ type: 'journal', article: a });
-                }} 
+            <Journal
+              data={journal}
+              onArticleClick={(article) => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setView({ type: 'journal', article });
+              }}
             />
           </>
         )}
 
-        {view.type === 'product' && (
-          <ProductDetail 
-            product={view.product} 
+        {view.type === 'ip' && (
+          <IPDetail
+            item={view.item}
+            category={view.category}
             onBack={() => {
               setView({ type: 'home' });
               setTimeout(() => scrollToSection('products'), 50);
             }}
-            onAddToCart={addToCart}
           />
         )}
 
         {view.type === 'journal' && (
-          <JournalDetail 
+          <JournalDetail
             article={view.article}
-            allArticles={journalArticles}
+            allArticles={journal.articles.filter((a) => a.published !== false)}
+            signature={site.companyName}
             onBack={() => {
               setView({ type: 'home' });
               setTimeout(() => scrollToSection('journal'), 50);
             }}
-            onNext={(nextArticle) => {
-               window.scrollTo({ top: 0, behavior: 'smooth' });
-               setView({ type: 'journal', article: nextArticle });
+            onNext={(next) => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              setView({ type: 'journal', article: next });
             }}
           />
         )}
-
-        {view.type === 'checkout' && (
-            <Checkout 
-                items={cartItems}
-                onBack={() => setView({ type: 'home' })}
-            />
-        )}
       </main>
 
-      {view.type !== 'checkout' && <Footer onLinkClick={handleNavClick} />}
-      
-      <Assistant products={products} knowledge={aiKnowledge} qaItems={qaItems} />
-      
-      <CartDrawer 
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onRemoveItem={removeFromCart}
-        onCheckout={() => {
-            setIsCartOpen(false);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            setView({ type: 'checkout' });
-        }}
-      />
+      <Footer site={site} onLinkClick={handleNavClick} />
+
+      {assistant.enabled && <Assistant data={assistant} />}
+
+      {source === 'bundled' && import.meta.env.DEV && (
+        <div className="fixed bottom-4 left-4 z-[80] rounded-lg bg-amber-500 px-3 py-2 text-[11px] font-bold uppercase tracking-widest text-white shadow-lg">
+          Bundled fallback content — API unreachable
+        </div>
+      )}
     </div>
   );
 }

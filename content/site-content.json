@@ -1,0 +1,471 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-08-30T05:45:55.385Z",
+  "updatedBy": "admin",
+  "site": {
+    "brandName": "KOI Mobilize",
+    "companyName": "KOI MOBILIZE Holdings Pte. Ltd.",
+    "logoUrl": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/logo_low_res.png",
+    "loaderLogoUrl": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/logo_low_res.png",
+    "contactEmail": "info@koinflation.co",
+    "copyright": "© 2025 KOI Mobilize Holdings Pte. Ltd. All rights reserved.",
+    "nav": [
+      {
+        "label": "Our Core",
+        "target": "about"
+      },
+      {
+        "label": "Our IPs",
+        "target": "products"
+      },
+      {
+        "label": "Insights",
+        "target": "journal"
+      },
+      {
+        "label": "Contact",
+        "target": "footer"
+      }
+    ],
+    "footer": {
+      "blurb": "A Global IP Platform Connecting Games, Media, and Digital Assets.",
+      "newsletterTitle": "Stay Updated",
+      "newsletterBlurb": "Join our newsletter to receive the latest updates on our IP ecosystem and digital asset launches.",
+      "newsletterSuccess": "Welcome to the MONOKOILY ecosystem!",
+      "legalLinks": [
+        {
+          "label": "Privacy Policy",
+          "href": "#"
+        },
+        {
+          "label": "Terms of Service",
+          "href": "#"
+        }
+      ]
+    }
+  },
+  "hero": {
+    "title": "Building the Bridge. Creating the Ecosystem. Owning the Future.",
+    "subtitle": "KOI MOBILIZE Holdings is an IP-driven digital ecosystem company building scalable platforms, digital assets and interconnected experiences that bridge Web2 and Web3.",
+    "backgroundMedia": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/hero_bg_video.mp4",
+    "badgeLabel": "KOI MOBILIZE HOLDINGS PTE. LTD.",
+    "ctaText": "MONOKOILY",
+    "ctaHoverText": "PLAY NOW",
+    "ctaLink": "https://www.monokoily.co/play-now"
+  },
+  "about": {
+    "sectionLabel": "Our Purpose",
+    "purpose": "Build Legacy and Vision.",
+    "visionTitle": "The Vision",
+    "vision": "To build a global digital value ecosystem where IP, users, creators, brands, businesses and digital assets are seamlessly connected across Web2 and Web3.\n",
+    "missionTitle": "The Mission",
+    "mission": "To create and scale proprietary IPs and platforms such as MONOKOILY and REHUBBLIC, transforming entertainment, community, commerce and digital ownership into an interconnected ecosystem that brings the next generation of users and businesses from Web2 into Web3.",
+    "mainImage": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/Ani-showcase.png",
+    "philosophy": {
+      "enabled": true,
+      "label": "Our Philosophy",
+      "title": "Core Philosophy",
+      "steps": [
+        "IP",
+        "Platform",
+        "Community",
+        "Commerce",
+        "Digital Value"
+      ],
+      "closing": "From Web2 to Web3"
+    },
+    "pillars": [
+      {
+        "id": "Pillar01",
+        "title": "IP Production",
+        "description": "KOI Mobilize Holdings Limited (Singapore) creates and owns scalable original IP across characters, story worlds, visual systems, and content formats.\n\nWe build brand-ready assets that can be deployed across games, media, campaigns, and licensing partnerships.",
+        "media": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/Ip_development.jpg",
+        "detailContent": "Our IP capabilities include:\n\n1) Character Development & Design: conceptualization of original personas, 2D/3D character design, personality frameworks, and backstory development.\n\n2) World Building & Lore: architecture of immersive story worlds, macro-narrative frameworks, history setting, and environmental storytelling.\n\n3) Visual Identity & Style Guides: comprehensive art direction, color systems, and technical manuals to ensure IP consistency across all media.\n\n4) Transmedia Content Production: creation of IP-driven content including short-form animation, digital comics, illustrations, and social media assets.\n\n5) Asset Readiness & Deployment: production of engine-ready files (Unity/Unreal), high-fidelity models, and modular assets for immediate integration into games or apps.\n\n6) Licensing & Commercialization Strategy: design of physical merchandise concepts, cross-brand collaboration blueprints, and digital asset (Web3) frameworks.\n\n7) Outcome: A library of high-equity, \"plug-and-play\" creative assets designed for rapid scaling and long-term monetization."
+      },
+      {
+        "id": "Pillar02",
+        "title": "Marketing Solution",
+        "description": "We provide end-to-end growth and distribution services for consumer apps, games, and digital brands—focused on measurable business outcomes.",
+        "media": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/Marketing02.jpg",
+        "detailContent": "Our services include:\n\n1) Growth Strategy & Positioning: market segmentation, messaging, go-to-market planning, funnel design.\n\n2) Performance Marketing: paid acquisition, creative testing, attribution setup, CAC/LTV optimization.\n\n3) Creator & KOL Campaigns: sourcing, briefing, contracting, tracking, and reporting.\n\n4) Community & Social Operations: content calendars, moderation playbooks, engagement programs, retention campaigns.\n\n5) Brand & Creative Studio: key visuals, ad creatives, landing pages, motion assets, brand kits.\n\n6) Partnerships & Distribution: co-marketing, affiliate/referral programs, channel partnerships.\n\n7) Analytics & Reporting: dashboards, cohort analysis, campaign post-mortems, KPI reviews.\n\n8)Outcome: A repeatable, data-driven marketing engine that grows users and revenue."
+      },
+      {
+        "id": "Pillar03",
+        "title": "Software Development",
+        "description": "We build production-grade software that powers digital products and measurable growth.",
+        "media": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/Software_Development02.jpg",
+        "detailContent": "Capabilities:\n\n1) Web & Mobile Development: websites, landing pages, apps, onboarding and user flows.\n\n2) Backend & APIs: databases, APIs, admin panels, role-based access, audit logs.\n\n3) Payments & Subscriptions: checkout flows, billing, invoicing, subscription management (scope-dependent).\n\n4) Data & Analytics: event tracking, dashboards, A/B testing, CRM and automation workflows.\n\n5) Integrations: app stores, payment gateways, messaging platforms, marketing tools.\n\n6) DevOps & Reliability: cloud deployment, monitoring, backups, scalability planning.\n\n7) Outcome: Fast iteration, stable systems, and clear ownership of core technology and IP"
+      }
+    ]
+  },
+  "portfolio": {
+    "sectionLabel": "DISCOVERY HUB",
+    "sectionTitle": "Featured IPs",
+    "sectionSubtitle": "Select a category to explore our IP ecosystem.",
+    "countSuffix": "IPs Discovered",
+    "enterLabel": "ENTER CATEGORY",
+    "categories": [
+      {
+        "id": "c1",
+        "name": "MSKOI Virtual Intellect",
+        "tagline": "Introducing KOI verse characters.",
+        "coverImage": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/IP01.jpg",
+        "items": [
+          {
+            "id": "mskoi-virtual-intellect-mskoi-brand-ip",
+            "name": "MSKOI Brand IP",
+            "tagline": "",
+            "description": "Virtual Persona: High-fidelity digital identity crafted with cinematic aesthetics, serving as the visual core of brand intelligence.\nEducational Content: Transforming complex financial logic into structured, high-value visual assets for impactful knowledge delivery.\nIP Expansion: Driving strategic brand growth from virtual spaces to diverse commercial landscapes through cross-platform integration.",
+            "imageUrl": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/MSKOI%20Brand%20IP02.jpg",
+            "actionLink": "https://www.youtube.com/watch?v=GuL3Fl0mTb0",
+            "actionLabel": "View Case Study",
+            "inquiryLabel": "INQUIRE ABOUT LICENSING ( coming soon )",
+            "inquiryEnabled": false
+          },
+          {
+            "id": "mskoi-virtual-intellect-ip-positioning",
+            "name": "IP Positioning",
+            "tagline": "",
+            "description": "MSKOI is a personal IP focused on financial education, combining virtual identity, storytelling, and emerging technologies to create a scalable knowledge-driven IP brand.",
+            "imageUrl": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/IP%20Positioning.jpg",
+            "actionLink": "https://www.facebook.com/reel/3166038513571036",
+            "actionLabel": "View Case Study",
+            "inquiryLabel": "INQUIRE ABOUT LICENSING ( coming soon )",
+            "inquiryEnabled": false
+          },
+          {
+            "id": "mskoi-virtual-intellect-implemented-assets",
+            "name": "Implemented Assets",
+            "tagline": "",
+            "description": "MSKOI Brand IP fuses an AR-modeled virtual character with financial storytelling to transform complex macroeconomics into immersive art. Through the \"Inflation Series,\" we bridge the gap between advanced technology and strategic value empowerment.",
+            "imageUrl": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/Implemented%20Assets.jpg",
+            "actionLink": "https://www.youtube.com/shorts/pEiLAokWTtY",
+            "actionLabel": "View Case Study",
+            "inquiryLabel": "INQUIRE ABOUT LICENSING ( coming soon )",
+            "inquiryEnabled": false
+          }
+        ]
+      },
+      {
+        "id": "c2",
+        "name": "Monokoily",
+        "tagline": "Exploring live to earn concept through game.",
+        "coverImage": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/IP02.jpg",
+        "items": [
+          {
+            "id": "monokoily-miss-koi-financial-vanguard",
+            "name": "Miss KOI: Financial Vanguard",
+            "tagline": "",
+            "description": "A narrative-driven avatar navigating inflation-impacted economies, guiding players through strategic career paths and investment logic to achieve ultimate financial independence.",
+            "imageUrl": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/Miss%20KOI%20Financial%20Vanguard.jpg",
+            "actionLink": "https://www.facebook.com/monokoily/posts/pfbid02FfndwH4APRJZi4LiScN6o2cPUYWyP8WcYS6XRTKFHMSiHnEr9DW8k57g6NX59yh8l",
+            "actionLabel": "View Case Study",
+            "inquiryLabel": "INQUIRE ABOUT LICENSING ( coming soon )",
+            "inquiryEnabled": false
+          },
+          {
+            "id": "monokoily-pumfy-the-wealth-paradox",
+            "name": "Pumfy: The Wealth Paradox",
+            "tagline": "",
+            "description": "A symbolic IP embodying the duality of wealth. From a benign collector to an uncontrolled monetary beast, Pumfy serves as a visual metaphor for the volatility and cost of financial obsession.",
+            "imageUrl": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/Pumfy%20The%20Wealth%20Paradox.jpg",
+            "actionLink": "https://www.facebook.com/monokoily/posts/pfbid02FfndwH4APRJZi4LiScN6o2cPUYWyP8WcYS6XRTKFHMSiHnEr9DW8k57g6NX59yh8l",
+            "actionLabel": "View Case Study",
+            "inquiryLabel": "INQUIRE ABOUT LICENSING ( coming soon )",
+            "inquiryEnabled": false
+          }
+        ]
+      }
+    ]
+  },
+  "journal": {
+    "sectionLabel": "News & Updates",
+    "sectionTitle": "Insights",
+    "articles": [
+      {
+        "id": "1",
+        "title": "Philippines MONOKOILY Pioneer Tester Event | Manila",
+        "date": "March 8, 2025",
+        "excerpt": "Bridging our IP universe and community through our first offline pioneer event in Southeast Asia.",
+        "image": "https://storage.googleapis.com/rawmind-ai/KOI%20SG%20TEST/_DSC0520.JPG",
+        "content": "[DP]Our MONOKOILY Pioneer Tester Event in Manila marked our first offline expansion, successfully bringing our game and IP universe to the Philippines.\n\nWe hosted early players and community partners for live gameplay and interactive sessions, creating a high-energy, hands-on experience for our first local cohort.\n\n[Q]MONOKOILY is built by its people; our Manila debut is the first step in creating a community-driven future for our IP in Southeast Asia.\n\nThis milestone strengthens our foundation in the region as we continue to build a vibrant, people-first ecosystem for the MONOKOILY universe.",
+        "sourceLink": "https://www.youtube.com/watch?v=B0aNiZz0wtM",
+        "published": true
+      }
+    ]
+  },
+  "assistant": {
+    "enabled": true,
+    "title": "Strategic Q&A",
+    "welcomeMessage": "Welcome to our Strategic Q&A. Use the \"Next\" button to reveal answers and \"Skip\" to move to the next strategic topic.",
+    "qaItems": [
+      {
+        "id": "1",
+        "question": "What is Monokoily?",
+        "answer": "Monokoily was once a harmonious world where dreams and value were abundant, until \"Inflation Mutants\" (Pumfys) appeared and disrupted the balance."
+      },
+      {
+        "id": "2",
+        "question": "What are Pumfys?",
+        "answer": "They are visual metaphors for inflation—creatures that grow by devouring value, time, and dreams, leading to global imbalance."
+      },
+      {
+        "id": "3",
+        "question": "What is the core mission of Monokoily?",
+        "answer": "To reclaim economic harmony through knowledge and action, creating a world of wisdom where individuals can achieve their dreams."
+      },
+      {
+        "id": "4",
+        "question": "What is the role of KOI City?",
+        "answer": "It is a growing digital metropolis where every citizen's actions contribute to the city’s overall economic health and personal reputation."
+      },
+      {
+        "id": "5",
+        "question": "What is the brand mission of KOI?",
+        "answer": "The core philosophy is \"Live, Learn, Earn\"—empowering heroes to manage resources and stop the spiraling effects of inflation."
+      },
+      {
+        "id": "6",
+        "question": "How do we defeat Pumfys (Inflation)?",
+        "answer": "Not through force, but through wisdom, strategy, and resource allocation by learning real-world value principles."
+      },
+      {
+        "id": "7",
+        "question": "What industry challenge does this ecosystem solve?",
+        "answer": "Traditional financial education is often boring or disconnected; we bridge this gap through interactive, gamified financial literacy simulations."
+      },
+      {
+        "id": "8",
+        "question": "What are \"Value Masters\"?",
+        "answer": "This is our vision—transforming passive consumers into active \"Value Masters\" who can navigate complex economic landscapes."
+      },
+      {
+        "id": "9",
+        "question": "Who is MsKOI?",
+        "answer": "She is the virtual mentor of the ecosystem, providing strategic advice and guidance to navigate the Monokoily landscape."
+      },
+      {
+        "id": "10",
+        "question": "What kind of help does MsKOI provide?",
+        "answer": "She offers strategy on how to outsmart the Inflation Mutants (Pumfys) and provides strategic advice on the economic landscape."
+      },
+      {
+        "id": "11",
+        "question": "What are the Five Pillars of growth in KOI?",
+        "answer": "Time, Knowledge, Health, Social Connections, and Capital."
+      },
+      {
+        "id": "12",
+        "question": "What is the financial backing of the KOI project?",
+        "answer": "We have secured a $25 Million investment from Bolts Capital to accelerate the development of the Monokoily IP and its global presence."
+      },
+      {
+        "id": "13",
+        "question": "What is the long-term Roadmap for KOI?",
+        "answer": "Expanding from a core life-simulator to a global multimedia IP including workshops, physical board games, and an expanded lore universe."
+      },
+      {
+        "id": "14",
+        "question": "What is the \"Mobilize Platform\"?",
+        "answer": "It is the central hub that drives the Monokoily experience, integrating missions, educational activities, and community-driven projects."
+      },
+      {
+        "id": "15",
+        "question": "Who is the target audience for this platform?",
+        "answer": "Young adults, students, and professionals who feel overwhelmed by the current economic climate and seek a risk-free environment to learn wealth management."
+      },
+      {
+        "id": "16",
+        "question": "How does KOI ensure a safe learning environment?",
+        "answer": "By creating \"Safe Spaces for Learning\" where users can share strategies and participate in collaborative events without real-world financial risk."
+      },
+      {
+        "id": "17",
+        "question": "Is this platform globally connected?",
+        "answer": "Yes, we aim to bridge the gap between diverse markets (from Singapore to SE Asia), creating a unified language for financial health and IP interaction."
+      },
+      {
+        "id": "18",
+        "question": "How important is community resilience in the project?",
+        "answer": "Very. Users can form alliances or \"neighborhoods\" to collectively mitigate the effects of inflation."
+      },
+      {
+        "id": "19",
+        "question": "What is the future vision?",
+        "answer": "To expand our core IPs into wider media and the physical world, building a sustainable global ecosystem."
+      },
+      {
+        "id": "20",
+        "question": "How do I get started?",
+        "answer": "Follow our Insights channel to stay updated on the latest developments in MsKOI’s classroom and the construction of KOI City."
+      }
+    ]
+  },
+  "knowledge": [
+    {
+      "id": "k-1",
+      "category": "Brand Lore & Story",
+      "information": "The Rise of Pumfy: Monokoily was once a harmonious world where dreams and value were abundant. However, mysterious creatures called \"Pumfy\" (Inflation Mutants) appeared. Initially harmless, they began to feed on the essence of value, time, and dreams, growing larger and causing global imbalance."
+    },
+    {
+      "id": "k-2",
+      "category": "The Core Problem",
+      "information": "The Inflation Crisis: The world faces soaring prices and shrinking purchasing power. Monokoily addresses the universal struggle of \"Why is everything more expensive?\" and \"Why is money losing its value?\" by personifying economic challenges as the Pumfy threat."
+    },
+    {
+      "id": "k-3",
+      "category": "Brand Vision",
+      "information": "Restoring Balance:  To create a world of wisdom and strategy where individuals can reclaim their dreams and restore economic harmony through knowledge and action."
+    },
+    {
+      "id": "k-4",
+      "category": "Brand Mission",
+      "information": "Live, Learn, Earn: To empower a new generation of heroes to master the \"essence of value.\" The mission is to provide an interactive environment where users learn to manage resources and stop the spiraling effects of inflation."
+    },
+    {
+      "id": "k-5",
+      "category": "Product Overview",
+      "information": "Interactive Life Simulator:  Monokoily is a comprehensive \"Life Simulator\" designed for users to navigate economic cycles. It combines entertainment with practical financial education, focusing on cash flow management and strategic decision-making."
+    },
+    {
+      "id": "k-6",
+      "category": "IP Character Focus",
+      "information": "Pumfy (The Inflation Mutant): The central antagonist and iconic IP character. Pumfys represent the hidden forces that devour wealth. They are visual metaphors for inflation—cute yet dangerous if left unchecked."
+    },
+    {
+      "id": "k-7",
+      "category": "Key Gameplay Features",
+      "information": "Strategic Survival: Users must utilize wisdom and strategy rather than just \"magic\" or \"swords\" to defeat the economic mutants. Features include resource allocation, learning real-world value principles, and earning rewards through proactive lifestyle management."
+    },
+    {
+      "id": "k-8",
+      "category": "Target Experience",
+      "information": "Empowerment through Wisdom: The experience is designed to turn passive consumers into active \"Value Masters\" who can navigate the complexities of modern economic life with confidence."
+    },
+    {
+      "id": "k-9",
+      "category": "Brand Identity",
+      "information": "The Hero’s Journey: Every user is a hero rising from the shadows of financial uncertainty to become a strategist capable of securing their own future and the prosperity of the Monokoily world."
+    },
+    {
+      "id": "k-10",
+      "category": "Industry Challenges",
+      "information": "The Education Gap: Traditional financial education is often boring, theoretical, and inaccessible. Monokoily bridges this gap by transforming complex economic theories into engaging, practical, and lived experiences."
+    },
+    {
+      "id": "k-11",
+      "category": "Target Audience",
+      "information": "The Modern Learner: Designed for young adults, students, and professionals who feel overwhelmed by the current economic climate and seek a risk-free environment to practice life-long wealth management skills."
+    },
+    {
+      "id": "k-12",
+      "category": "Gameplay Pillar 1",
+      "information": "Live to Earn Philosophy: A core concept where \"living\" your daily life (making choices about lifestyle, health, and social activity) directly impacts your economic success within the simulator."
+    },
+    {
+      "id": "k-13",
+      "category": "Gameplay Pillar 2",
+      "information": "Skill Acquisition: Users can \"level up\" their character's knowledge base. Higher educational levels or specialized skills unlocked in the game lead to higher-tier career opportunities and better defense against \"Pumfy\" attacks."
+    },
+    {
+      "id": "k-14",
+      "category": "Game Feature: The Market",
+      "information": "Dynamic Ecosystem: A simulated marketplace where prices fluctuate based on the collective actions of players and the presence of Inflation Mutants, mirroring real-world market volatility."
+    },
+    {
+      "id": "k-15",
+      "category": "Game Feature: Collaboration",
+      "information": "Community Resistance: While individual strategy is key, users can form alliances or \"neighborhoods\" to collectively mitigate the effects of inflation and build resilient communities."
+    },
+    {
+      "id": "k-16",
+      "category": "Brand Roadmap",
+      "information": "Phased Expansion: Moving from a core life-simulator experience to a global multimedia IP, including educational workshops, physical board game tie-ins, and an expanded lore universe."
+    },
+    {
+      "id": "k-17",
+      "category": "Community Support",
+      "information": "Safe Space for Learning: A dedicated ecosystem where users can share strategies, report \"Pumfy\" sightings, and participate in collaborative events designed to boost collective financial literacy."
+    },
+    {
+      "id": "k-18",
+      "category": "Financial Backing",
+      "information": "Strategic Growth: Secured a $25 Million investment from Bolts Capital to accelerate the development of the Monokoily IP and expand its global presence."
+    },
+    {
+      "id": "k-19",
+      "category": "The Virtual Mentor",
+      "information": "MsKOI: The central guide of the ecosystem. She serves as a virtual mentor, helping users navigate the \"KOI City\" landscape and providing strategic advice on how to outsmart the Inflation Mutants (Pumfys)."
+    },
+    {
+      "id": "k-20",
+      "category": "The Five Pillars",
+      "information": "Balanced Growth: The simulator challenges users to manage five core pillars of life: Time, Knowledge, Health, Social Connections, and Capital. Success is defined by finding harmony between these elements."
+    },
+    {
+      "id": "k-21",
+      "category": "Business Partnership",
+      "information": "The Agency Model: A collaborative framework that allows corporate partners and creators to establish their own \"Business Hubs\" within the Monokoily ecosystem to provide localized services and content."
+    },
+    {
+      "id": "k-22",
+      "category": "Ecosystem Engine",
+      "information": "The Mobilize Platform: A central hub that drives the Monokoily experience, facilitating missions, educational activities, and the integration of community-driven projects."
+    },
+    {
+      "id": "k-23",
+      "category": "Citizen Identity",
+      "information": "KOI City Residency: Users are treated as citizens of a growing digital metropolis. Every action taken contributes to the city's overall economic health and the user's personal reputation."
+    },
+    {
+      "id": "k-24",
+      "category": "Evolving Threats",
+      "information": "Pumfy Mutations: Inflation Mutants are not static; they evolve into different forms representing various economic pressures, forcing users to continuously update their knowledge and strategies."
+    },
+    {
+      "id": "k-25",
+      "category": "Global Connectivity",
+      "information": "Cross-Border Literacy: Bridging the gap between diverse markets (starting from Singapore and SE Asia) to create a unified global language for financial health and IP interaction."
+    },
+    {
+      "id": "k-26",
+      "category": "IP Backstory",
+      "information": "世界的起源：Monokoily 曾是一个和谐的世界，人们自由追逐梦想，直到“通胀怪兽”（Pumfy）出现，它以人们的时间、梦想和价值核心为食，导致世界失去平衡。"
+    },
+    {
+      "id": "k-27",
+      "category": "IP Mechanics",
+      "information": "智慧胜于武力：在这个世界里，英雄不靠剑或魔法，而是通过智慧、平衡和策略来对抗经济危机，夺回失去的价值。"
+    },
+    {
+      "id": "k-28",
+      "category": "Education Focus",
+      "information": "填补教育空白：针对传统财务教育枯燥且难以触达的问题，Monokoily 将复杂的经济理论转化为参与感强、实用且生活化的互动体验。"
+    },
+    {
+      "id": "k-29",
+      "category": "Value Philosophy",
+      "information": "价值大师 (Value Masters)：项目的目标是将被动的消费者转变为主动的“价值大师”，让他们能充满自信地应对现代经济生活的复杂性。"
+    },
+    {
+      "id": "k-30",
+      "category": "Market Simulation",
+      "information": "动态生态系统：模拟一个价格随玩家集体行为和通胀怪兽干预而波动的市场，镜像呈现现实世界的市场波动性。"
+    },
+    {
+      "id": "k-31",
+      "category": "Community Lore",
+      "information": "社区防御：除了个人策略，用户可以形成“邻里（Neighborhoods）”来共同抵御通胀影响，建立具有韧性的社区生态。"
+    },
+    {
+      "id": "k-32",
+      "category": "Future Vision",
+      "information": "跨媒体扩张：从核心的人生模拟器体验扩展为全球多媒体 IP，包括教育工作坊、实体桌游联动以及更广阔的背景故事宇宙。"
+    },
+    {
+      "id": "k-33",
+      "category": "Safety Pillars",
+      "information": "学习避风港：建立一个专用生态系统，让用户分享策略、报告通胀怪兽动态，并参与旨在提升集体金融素养的协作活动。"
+    }
+  ]
+}

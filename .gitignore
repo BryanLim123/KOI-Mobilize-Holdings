@@ -1,0 +1,37 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# V5.0 backend
+# Secrets — never commit. The repo is public.
+.env
+.env.*
+!.env.example
+
+# Live store: subscriber emails and backups. Local/server only.
+server/data/
+
+# NOTE: public/content.json IS committed on purpose — it is the published
+# content the deployed static site fetches at runtime. Run
+# "npm run publish:content" before committing to refresh it.
